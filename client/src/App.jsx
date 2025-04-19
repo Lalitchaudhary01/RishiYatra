@@ -8,6 +8,7 @@ import Gallery from "./components/Gallery";
 import CTA from "./components/CTA";
 import Footer from "./components/Footer";
 import Itinerary from "./components/Itinerary";
+import { Analytics } from "@vercel/analytics/react";
 
 export default function App() {
   const [isVisible, setIsVisible] = useState({});
@@ -45,6 +46,7 @@ export default function App() {
       <Gallery isVisible={isVisible} />
       <CTA />
       <Footer />
+      <Analytics /> {/* ✅ Add this line for Vercel Analytics */}
     </div>
   );
 }
