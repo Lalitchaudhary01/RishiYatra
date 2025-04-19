@@ -2,7 +2,7 @@ export default function CTA() {
   // Function to handle booking button click - opens Google Form
   const handleBookingClick = () => {
     // Replace this URL with your actual Google Form URL
-    window.open("https://forms.google.com/your-form-url", "_blank");
+    window.open("https://forms.gle/GfFYPMBfHCSwJNCd8", "_blank");
   };
 
   // Function to handle contact button click - opens WhatsApp

@@ -1,132 +1,258 @@
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
 
-export default function Gallery({ isVisible }) {
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  // Images array with placeholder images
+const Gallery = () => {
+  // Updated gallery images for Rishikesh trip including dams and lakes
   const images = [
-    { id: 1, title: "River Rafting Adventure" },
-    { id: 2, title: "Yoga by the Ganges" },
-    { id: 3, title: "Himalayan Trek" },
-    { id: 4, title: "Sunset at Laxman Jhula" },
-    { id: 5, title: "Camping Night" },
-    { id: 6, title: "Temple Visit" },
-    { id: 7, title: "Group Meditation" },
-    { id: 8, title: "Bonfire Evening" },
+    {
+      id: 1,
+      title: "Ganga Aarti",
+      description: "Beautiful evening ceremony at Triveni Ghat",
+      thumbnail: "https://ik.imagekit.io/icrguob6c/ganga%20arti.jpeg",
+    },
+    {
+      id: 2,
+      title: "Laxman Jhula",
+      description: "Famous suspension bridge across the Ganges",
+      thumbnail: "https://ik.imagekit.io/icrguob6c/laxman.jpeg",
+    },
+    {
+      id: 3,
+      title: "River Rafting",
+      description: "Exciting adventure on the Ganges rapids",
+      thumbnail: "https://ik.imagekit.io/icrguob6c/raftingg.jpeg",
+    },
+    {
+      id: 4,
+      title: "Tehri Dam",
+      description: "Asia's tallest dam with breathtaking views",
+      thumbnail: "https://ik.imagekit.io/icrguob6c/dam.jpeg",
+    },
+    {
+      id: 5,
+      title: "Tehri Lake",
+      description: "Beautiful reservoir with water sports activities",
+      thumbnail: "https://ik.imagekit.io/icrguob6c/lake.jpeg",
+    },
+    {
+      id: 6,
+      title: "Yoga by the Ganges",
+      description: "Morning yoga session with riverside view",
+      thumbnail: "https://ik.imagekit.io/icrguob6c/yoga%202.jpeg",
+    },
+    {
+      id: 7,
+      title: "Koti Banal",
+      description: "Ancient architecture near Tehri Lake",
+      thumbnail: "https://ik.imagekit.io/icrguob6c/koti.jpeg",
+    },
+    {
+      id: 8,
+      title: "Shivpuri Beach",
+      description: "Popular spot for camping by the river",
+      thumbnail: "https://ik.imagekit.io/icrguob6c/shivpuri.jpeg",
+    },
+    {
+      id: 9,
+      title: "Neer Garh Waterfall",
+      description: "Refreshing waterfall with natural pools",
+      thumbnail: "https://ik.imagekit.io/icrguob6c/neer.jpeg?",
+    },
   ];
 
-  // Auto-scroll functionality
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % images.length);
-    }, 3000);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [activeCategory, setActiveCategory] = useState("all");
 
-    return () => clearInterval(interval);
-  }, [images.length]);
-
-  // Card animation variants
-  const cardVariants = {
-    hover: {
-      scale: 1.05,
-      boxShadow: "0px 10px 20px rgba(0,0,0,0.15)",
-      transition: { duration: 0.3 },
-    },
+  // Function to open the modal with the selected image
+  const openModal = (image) => {
+    setSelectedImage(image);
   };
 
+  // Function to close the modal
+  const closeModal = () => {
+    setSelectedImage(null);
+  };
+
+  // Categories for filtering
+  const categories = {
+    all: "All Places",
+    water: "Lakes & Dams",
+    spiritual: "Spiritual Sites",
+    adventure: "Adventure Spots",
+  };
+
+  // Filter images based on active category
+  const filteredImages =
+    activeCategory === "all"
+      ? images
+      : activeCategory === "water"
+      ? images.filter((img) =>
+          ["Tehri Dam", "Tehri Lake", "Neer Garh Waterfall"].includes(img.title)
+        )
+      : activeCategory === "spiritual"
+      ? images.filter((img) =>
+          ["Ganga Aarti", "Yoga by the Ganges", "Koti Banal"].includes(
+            img.title
+          )
+        )
+      : images.filter((img) =>
+          ["River Rafting", "Laxman Jhula", "Shivpuri Beach"].includes(
+            img.title
+          )
+        );
+
   return (
-    <section
-      id="gallery"
-      className="py-20 bg-gradient-to-b from-white to-teal-50"
-    >
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={
-            isVisible["gallery"] ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }
-          }
-          transition={{ duration: 0.8 }}
-        >
-          <h2 className="text-4xl font-bold text-center mb-4">
-            Memories from Rishikesh
-          </h2>
-          <p className="text-xl text-gray-600 text-center mb-16 max-w-3xl mx-auto">
-            Glimpses of unforgettable GLA student adventures
-          </p>
+    <div className="bg-gradient-to-r from-blue-50 to-green-50 min-h-screen p-8">
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-4xl font-bold mb-2 text-center text-blue-800">
+          Rishikesh Trip Gallery
+        </h1>
+        <p className="text-lg text-center text-gray-600 mb-8">
+          Exploring the yoga capital, stunning dams and lakes
+        </p>
 
-          {/* Featured carousel */}
-          <div className="mb-16 overflow-hidden rounded-xl shadow-lg">
-            <motion.div
-              className="flex"
-              animate={{ x: `-${activeIndex * 100}%` }}
-              transition={{ duration: 0.7, ease: "easeInOut" }}
+        {/* Category Filters */}
+        <div className="flex flex-wrap justify-center gap-4 mb-8">
+          {Object.entries(categories).map(([key, value]) => (
+            <button
+              key={key}
+              onClick={() => setActiveCategory(key)}
+              className={`px-6 py-2 rounded-full text-sm font-medium transition-colors duration-300 ${
+                activeCategory === key
+                  ? "bg-blue-600 text-white"
+                  : "bg-white text-blue-600 hover:bg-blue-100"
+              }`}
             >
-              {images.map((img, index) => (
-                <div key={index} className="min-w-full relative">
-                  <div className="aspect-video relative">
-                    <img
-                      src={`https://www.google.com/imgres?q=River%20Rafting%20Adventure%20rishikesh&imgurl=https%3A%2F%2Fmedia1.thrillophilia.com%2Ffilestore%2Fl1stgsdtm1wlcgkfhkg49pers7qj_WDEFRGTYH.png&imgrefurl=https%3A%2F%2Fwww.thrillophilia.com%2Ftours%2Frafting-day-trips-in-rishikesh&docid=VohsCzTjG1wUPM&tbnid=_01RHIQf-S3SYM&vet=12ahUKEwikpYq3xtqMAxUvcGwGHcl9El0QM3oECGQQAA..i&w=3699&h=2374&hcb=2&ved=2ahUKEwikpYq3xtqMAxUvcGwGHcl9El0QM3oECGQQAA`}
-                      alt={img.title}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
-                      <h3 className="text-white text-2xl font-bold">
-                        {img.title}
-                      </h3>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </motion.div>
+              {value}
+            </button>
+          ))}
+        </div>
 
-            {/* Carousel indicators */}
-            <div className="flex justify-center gap-2 mt-4 pb-4">
-              {images.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setActiveIndex(index)}
-                  className={`w-3 h-3 rounded-full ${
-                    activeIndex === index ? "bg-teal-600" : "bg-gray-300"
-                  }`}
+        {/* Gallery Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredImages.map((image) => (
+            <div
+              key={image.id}
+              className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer transform hover:scale-105 transition-transform"
+              onClick={() => openModal(image)}
+            >
+              <div className="h-64 overflow-hidden">
+                <img
+                  src={image.thumbnail}
+                  alt={image.title}
+                  className="w-full h-full object-cover"
                 />
-              ))}
+              </div>
+              <div className="p-4">
+                <h3 className="text-xl font-semibold text-gray-800">
+                  {image.title}
+                </h3>
+                <p className="text-gray-600 mt-1">{image.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Image Viewer Modal */}
+        {selectedImage && (
+          <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg max-w-4xl w-full relative">
+              <button
+                onClick={closeModal}
+                className="absolute top-4 right-4 text-gray-800 hover:text-gray-600 text-2xl font-bold"
+              >
+                ×
+              </button>
+              <div className="p-2">
+                <img
+                  src={selectedImage.thumbnail}
+                  alt={selectedImage.title}
+                  className="w-full h-96 object-contain"
+                />
+                <div className="p-4">
+                  <h3 className="text-2xl font-bold text-gray-800">
+                    {selectedImage.title}
+                  </h3>
+                  <p className="text-gray-600 mt-2">
+                    {selectedImage.description}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
+        )}
 
-          {/* Gallery grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {images.map((img) => (
-              <motion.div
-                key={img.id}
-                className="bg-white rounded-lg overflow-hidden shadow-md"
-                variants={cardVariants}
-                whileHover="hover"
-              >
-                <div className="aspect-square relative">
-                  <img
-                    src={`/api/placeholder/400/400`}
-                    alt={img.title}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                    <p className="text-white font-medium">{img.title}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+        {/* Trip Info Section */}
+        <div className="mt-16 bg-white rounded-lg shadow-lg p-6">
+          <h2 className="text-2xl font-bold text-blue-800 mb-4">
+            Rishikesh Trip Highlights
+          </h2>
+          <p className="text-gray-700 mb-4">
+            Our journey through Rishikesh and surrounding areas includes
+            spiritual experiences, adventure activities, and exploration of
+            magnificent dams and lakes in the region.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <h3 className="font-bold text-blue-800">Spiritual Experience</h3>
+              <p className="text-gray-600">
+                Temple visits, Ganga Aarti, and meditation sessions
+              </p>
+            </div>
+            <div className="bg-green-50 p-4 rounded-lg">
+              <h3 className="font-bold text-green-800">Adventure Activities</h3>
+              <p className="text-gray-600">
+                White water rafting, cliff jumping, and trekking
+              </p>
+            </div>
+            <div className="bg-yellow-50 p-4 rounded-lg">
+              <h3 className="font-bold text-yellow-800">Dam & Lake Tours</h3>
+              <p className="text-gray-600">
+                Tehri Dam visit, boating in Tehri Lake, and water sports
+              </p>
+            </div>
+            <div className="bg-purple-50 p-4 rounded-lg">
+              <h3 className="font-bold text-purple-800">Nature Exploration</h3>
+              <p className="text-gray-600">
+                Waterfalls, beaches, and scenic Himalayan views
+              </p>
+            </div>
           </div>
+        </div>
 
-          <div className="text-center mt-12">
-            <motion.button
-              className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              View Full Gallery
-            </motion.button>
+        {/* Dam and Lake Information */}
+        <div className="mt-8 bg-blue-100 rounded-lg shadow-lg p-6">
+          <h2 className="text-2xl font-bold text-blue-800 mb-4">
+            Dam & Lake Attractions
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-white p-4 rounded-lg shadow">
+              <h3 className="text-xl font-bold text-blue-700">Tehri Dam</h3>
+              <p className="text-gray-700 mt-2">
+                One of the tallest dams in Asia, Tehri Dam is an engineering
+                marvel offering spectacular panoramic views. The dam creates a
+                massive reservoir and provides hydroelectric power to the
+                region.
+              </p>
+              <div className="mt-4 text-blue-600 font-medium">
+                Activities: Sightseeing, Photography
+              </div>
+            </div>
+            <div className="bg-white p-4 rounded-lg shadow">
+              <h3 className="text-xl font-bold text-blue-700">Tehri Lake</h3>
+              <p className="text-gray-700 mt-2">
+                Formed by the Tehri Dam, this beautiful artificial lake offers
+                various water sports and recreational activities. Surrounded by
+                mountains, it provides a serene escape with stunning views.
+              </p>
+              <div className="mt-4 text-blue-600 font-medium">
+                Activities: Boating, Jet Skiing, Kayaking
+              </div>
+            </div>
           </div>
-        </motion.div>
+        </div>
       </div>
-    </section>
+    </div>
   );
-}
+};
+
+export default Gallery;

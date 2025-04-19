@@ -7,7 +7,7 @@ export default function Nav() {
   // Function to handle booking button click - opens Google Form
   const handleBookNowClick = () => {
     // Replace this URL with your actual Google Form URL
-    window.open("https://forms.google.com/your-form-url", "_blank");
+    window.open("https://forms.gle/GfFYPMBfHCSwJNCd8", "_blank");
   };
 
   return (

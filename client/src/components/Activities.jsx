@@ -6,22 +6,25 @@ export default function Activities({ isVisible }) {
       title: "River Rafting",
       description:
         "Experience the thrill of Ganga's rapids with professional guides",
-      image: "rafting",
+      image: "https://ik.imagekit.io/icrguob6c/raffting.jpg",
     },
     {
       title: "Yoga Retreats",
       description: "Begin your day with yoga sessions by the riverside",
-      image: "yoga",
+      image:
+        "https://ik.imagekit.io/icrguob6c/yoga.jpeg?updatedAt=1745084132282",
     },
     {
-      title: "Himalayan Trekking",
-      description: "Explore scenic trails with breathtaking mountain views",
-      image: "trekking",
+      title: "Tehri Lake & Dam",
+      description:
+        "Visit Asia's tallest dam and enjoy water sports at Tehri Lake",
+      image:
+        "https://ik.imagekit.io/icrguob6c/theri.jpeg?updatedAt=1745084131839",
     },
     {
       title: "Camping",
       description: "Overnight stays under the stars with bonfire and music",
-      image: "camping",
+      image: "https://ik.imagekit.io/icrguob6c/camping.jpeg",
     },
   ];
 
@@ -49,11 +52,13 @@ export default function Activities({ isVisible }) {
                 key={index}
                 className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-500 transform hover:-translate-y-2 hover:shadow-xl"
               >
-                {/* Activity Image Placeholder */}
-                <div className="h-48 bg-teal-600 relative overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center text-white text-opacity-50">
-                    [{activity.image}]
-                  </div>
+                {/* Fixed Activity Image */}
+                <div className="h-48 relative overflow-hidden">
+                  <img
+                    src={activity.image}
+                    alt={activity.title}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
 
                 <div className="p-6">

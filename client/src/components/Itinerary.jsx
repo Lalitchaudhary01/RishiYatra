@@ -119,7 +119,7 @@ export default function Itinerary() {
           icon: "yoga",
         },
         {
-          time: "5:30 PM",
+          time: "1:30 PM",
           title: "River Rafting in Rishikesh",
           description:
             "Experience the thrill of river rafting on the Ganges. (Cost: ₹500 per person)",
